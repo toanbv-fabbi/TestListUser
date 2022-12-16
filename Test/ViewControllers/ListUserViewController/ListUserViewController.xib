@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ListUserViewController" customModule="Test" customModuleProvider="target">
             <connections>
                 <outlet property="listUserTableView" destination="f57-7b-ylY" id="DO2-V6-NQk"/>
+                <outlet property="loadingView" destination="ZXY-ih-v9B" id="MEk-nj-CEV"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -24,13 +25,19 @@
                     <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="ZXY-ih-v9B">
+                    <rect key="frame" x="188.5" y="429.5" width="37" height="37"/>
+                    <color key="color" red="0.024636143820000001" green="0.49497860669999999" blue="0.97017079589999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </activityIndicatorView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="f57-7b-ylY" secondAttribute="bottom" id="5px-2M-NWj"/>
                 <constraint firstItem="f57-7b-ylY" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="HXf-2r-vVP"/>
+                <constraint firstItem="ZXY-ih-v9B" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="LiZ-h8-aHG"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="f57-7b-ylY" secondAttribute="trailing" id="TX1-JH-PTf"/>
+                <constraint firstItem="ZXY-ih-v9B" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Vhk-xa-dkp"/>
                 <constraint firstItem="f57-7b-ylY" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="qhW-QG-oih"/>
             </constraints>
             <point key="canvasLocation" x="132" y="100"/>

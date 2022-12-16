@@ -8,7 +8,15 @@
 import UIKit
 
 class ListUserViewController: UIViewController {
-    var viewModel: ListUserViewModel
+    private var viewModel: ListUserViewModel
+    
+    @IBOutlet weak var loadingView: UIActivityIndicatorView!
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(pullRefresh), for: .valueChanged)
+        return refreshControl
+    }()
     
     init(viewModel: ListUserViewModel = ListUserViewModel()) {
         self.viewModel = viewModel
@@ -27,38 +35,54 @@ class ListUserViewController: UIViewController {
         commonSetup()
     }
     
-    func commonSetup() {
+    private func commonSetup() {
         listUserTableView.delegate = self
         listUserTableView.dataSource = self
         viewModel.delegate = self
+        listUserTableView.refreshControl = refreshControl
+        listUserTableView.register(UINib(nibName: String(describing: InfoUserTableViewCell.self), bundle: nil), forCellReuseIdentifier: String(describing: InfoUserTableViewCell.self))
+    }
+    
+    @objc
+    private func pullRefresh() {
+        loadingView.startAnimating()
+        viewModel.makeRequest()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        pullRefresh()
     }
 
 }
 extension ListUserViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.users.count
+        viewModel.infoUsers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: InfoUserTableViewCell.self)) as? InfoUserTableViewCell
         else { return UITableViewCell() }
-        cell.bindData(infoUser: viewModel.users[indexPath.row])
+        cell.bindData(infoUser: viewModel.infoUsers[indexPath.row])
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        100
+        120
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let detailViewController = DetailUserViewController(nibName: String(describing: DetailUserViewController.self), bundle: nil)
+        detailViewController.infoUserDetail = viewModel.infoUsers[indexPath.row]
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
     
 }
 extension ListUserViewController: ListUserDelegate {
     
     func updateList() {
+        loadingView.stopAnimating()
+        refreshControl.endRefreshing()
         listUserTableView.reloadData()
     }
     

@@ -25,8 +25,8 @@ struct InfoUser: Codable {
         var geo: Geo?
     }
     struct Geo: Codable {
-        var lat: Double?
-        var lng: Double?
+        var lat: String?
+        var lng: String?
     }
     
     struct Company: Codable {
